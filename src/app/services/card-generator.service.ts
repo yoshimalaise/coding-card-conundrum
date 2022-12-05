@@ -104,7 +104,7 @@ assert(${tmp[0]} === ${tmp[1]} &&
       allVars.forEach(el2 => {
         res.push({
           title: 'Swap if smaller',
-          comment: 'This piece of code will swap two variables but only if the first is smaller than the second',
+          comment: `This piece of code will swap ${el} and ${el2} but only if ${el} is smaller than ${el2}`,
           snippet: `
 if (${el} < ${el2}) {
   let tmp = ${el};
@@ -123,7 +123,7 @@ if (${el} < ${el2}) {
       allVars.forEach(el2 => {
         res.push({
           title: 'Swap if bigger',
-          comment: 'This piece of code will swap two variables but only if the first is bigger than the second',
+          comment: `This piece of code will swap ${el} and ${el2} but only if ${el} is bigger than ${el2}`,
           snippet: `
 if (${el} > ${el2}) {
   let tmp = ${el};
