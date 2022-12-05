@@ -26,6 +26,7 @@
     "@capacitor/status-bar": "4.1.1",
     "@ionic/angular": "^6.1.9",
     "ionicons": "^6.0.3",
+    "ng2-dragula": "^2.1.1",
     "rxjs": "~7.5.0",
     "snippet-highlight": "^1.0.2",
     "tslib": "^2.3.0",

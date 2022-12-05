@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      CodeCards - {{ currentPlayer.name }}'s turn
+      CodeCards - {{ currentPlayer?.name }}'s turn
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -12,13 +12,14 @@
    <div class="table-zone">
     <div class="trail" *ngFor="let t of model.trails">
       <app-environment-card [environmentCard]="t.environmentCard"></app-environment-card>
-      <app-code-card *ngFor="let c of t.codeCards" [codeCard]="c"></app-code-card>
+      <app-code-card class="trail-card" *ngFor="let c of t.codeCards" [codeCard]="c"></app-code-card>
+      <ion-button (click)="addCard(t)" *ngIf="selectedCard" class="add-btn">Add card here</ion-button>
     </div>
    </div>
 
    <div class="hand-zone">
      <div class="hand">
-      <app-code-card *ngFor="let c of currentPlayer.hand" [codeCard]="c"></app-code-card>
+      <app-code-card [class]="selectedCard === c ? 'selected-card' : ''" (click)="selectCard(c)" *ngFor="let c of currentPlayer.hand" [codeCard]="c"></app-code-card>
 
       <div class="goal-container">
         <app-goal-card *ngIf="currentPlayer.goal" [goalCard]="currentPlayer.goal"></app-goal-card>

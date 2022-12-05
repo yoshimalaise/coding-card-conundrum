@@ -11,11 +11,12 @@ import { EnvironmentCardComponent } from './components/environment-card/environm
 import { CodeCardComponent } from './components/code-card/code-card.component';
 import { GoalCardComponent } from './components/goal-card/goal-card.component';
 import { DeckOverviewComponent } from './components/deck-overview/deck-overview.component';
+import { DragulaModule } from 'ng2-dragula';
 
 @NgModule({
   declarations: [AppComponent, GameFieldComponent, EnvironmentCardComponent, CodeCardComponent, GoalCardComponent, DeckOverviewComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, DragulaModule.forRoot()],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
 })

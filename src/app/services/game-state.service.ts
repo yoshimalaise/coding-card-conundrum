@@ -10,6 +10,7 @@ import { CardGeneratorService } from './card-generator.service';
   providedIn: 'root'
 })
 export class GameStateService {
+  
   cardTrails: CardTrail[] = [];
   players: Player[] = [];
   currentPlayer: number = 0;
@@ -56,5 +57,9 @@ export class GameStateService {
 
   getNextPlayer(): Player {
     return this.players[this.currentPlayer++ % this.players.length];
+  }
+
+  checkForGoals() {
+    throw new Error('Method not implemented.');
   }
 }
