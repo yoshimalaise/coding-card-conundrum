@@ -1,14 +1,29 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      CodeCards
+      CodeCards - {{ currentPlayer.name }}'s turn
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
 
-  <div id="container">
-   This will become the playing field
+  <div class="container" *ngIf="currentPlayer">
+   <div class="table-zone">
+    <div class="trail" *ngFor="let t of model.trails">
+      <app-environment-card [environmentCard]="t.environmentCard"></app-environment-card>
+      <app-code-card *ngFor="let c of t.codeCards" [codeCard]="c"></app-code-card>
+    </div>
+   </div>
+
+   <div class="hand-zone">
+     <div class="hand">
+      <app-code-card *ngFor="let c of currentPlayer.hand" [codeCard]="c"></app-code-card>
+
+      <div class="goal-container">
+        <app-goal-card *ngIf="currentPlayer.goal" [goalCard]="currentPlayer.goal"></app-goal-card>
+       </div>
+     </div>
+   </div>
   </div>
 </ion-content>

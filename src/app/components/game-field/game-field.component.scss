@@ -1,17 +1,48 @@
+.container {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.table-zone {
+  width: 100%;
+  height: calc(100% - 350px);
+  background-color: aqua;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+
+.hand-zone {
+  width: 100%;
+  background-color: chocolate;
+}
+
+.hand {
+  width: 100%;
+  gap: 10px;
+  display: flex;
+  justify-content: center;
+  justify-items: center;
+  flex-direction: row;
+}
+
+
 /** customize the code highlight, hide the language and copy button **/
 ::ng-deep .code-toolbar > .toolbar {
     display: none !important;
-  }
-  ::ng-deep .code-line .language-javascript {
-    border-top: none !important;
-    padding: 2px !important;
-    margin: 0px !important;
-  }
-  
-  ::ng-deep .language-javascript {
-    font-size: x-small;
-  }
-  
-  ::ng-deep ion-slide {
-    width: 100%;
-  }
+}
+::ng-deep .code-line .language-javascript {
+  border-top: none !important;
+  padding: 2px !important;
+  margin: 0px !important;
+}
+
+::ng-deep .language-javascript {
+  font-size: x-small;
+}
+
+::ng-deep ion-slide {
+  width: 100%;
+}

@@ -18,7 +18,7 @@ export class HomePage {
   }
 
   showDeckOverview() {
-    this.model.players = [{name: 'Player one', hand: [], score: 0}];
+    // this.model.players = [{name: 'Player one', hand: [], score: 0}];
     this.model.setup();
     this.router.navigate(['deck-overview']);
   }
