@@ -1,0 +1,6 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "CodeCards",
+	"webDir": "www",
+	"bundledWebRuntime": false
+}

@@ -1,0 +1,7 @@
+{
+  "name": "CodeCards",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
