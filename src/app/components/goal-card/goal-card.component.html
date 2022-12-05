@@ -1,3 +1,9 @@
-<p>
-  goal-card works!
-</p>
+<div class="card" *ngIf="goalCard">
+  <div class="title-container">
+    <h1>Goal</h1>
+  </div>
+  <snippet-highlight class="snippet" theme="dark" language="javascript" [content]="goalCard.assertionSnippet"></snippet-highlight>
+  <div class="score-container">
+    <div> - {{ goalCard.score }} - </div>
+  </div>
+</div>

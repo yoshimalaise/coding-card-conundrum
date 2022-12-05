@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { GameStateService } from '../services/game-state.service';
 
 @Component({
   selector: 'app-home',
@@ -7,6 +9,18 @@ import { Component } from '@angular/core';
 })
 export class HomePage {
 
-  constructor() {}
+  constructor(private router: Router, private model: GameStateService) {}
+
+  startGame() {
+    this.model.players = [{name: 'Player one', hand: [], score: 0}];
+    this.model.setup();
+    this.router.navigate(['game-field']);
+  }
+
+  showDeckOverview() {
+    this.model.players = [{name: 'Player one', hand: [], score: 0}];
+    this.model.setup();
+    this.router.navigate(['deck-overview']);
+  }
 
 }

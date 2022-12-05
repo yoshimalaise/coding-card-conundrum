@@ -1,0 +1,33 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      CodeCards - DeckOverview
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <div id="container">
+    <h1>
+      Goal Cards
+    </h1>
+    <div class="card-container">
+      <app-goal-card *ngFor="let c of model.goalCards" [goalCard]="c"></app-goal-card>
+    </div>
+
+    <h1>
+      Environment Cards
+    </h1>
+    <div class="card-container">
+      <app-environment-card *ngFor="let c of model.environmentCards" [environmentCard]="c"></app-environment-card>
+    </div>
+
+    <h1>
+      Code Cards
+    </h1>
+    <div class="card-container">
+      <app-code-card *ngFor="let c of model.codeCards" [codeCard]="c"></app-code-card>
+    </div>
+  </div>
+</ion-content>

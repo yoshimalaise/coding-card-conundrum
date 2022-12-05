@@ -1,3 +1,11 @@
-<p>
-  code-card works!
-</p>
+<div class="card" *ngIf="codeCard">
+  <snippet-highlight class="snippet" theme="dark" language="javascript" [content]="codeCard.snippet"></snippet-highlight>
+
+  <div class="title-container">
+    <h1> {{ codeCard.title }}</h1>
+  </div>
+
+  <div class="comment">
+    /* {{ codeCard.comment }} */
+  </div>
+</div>

@@ -4,6 +4,6 @@ import { GoalCard } from '../model/goal-card.interface';
 export interface Player {
     name: string;
     hand: CodeCard[];
-    goal: GoalCard;
+    goal?: GoalCard;
     score: number;
 }

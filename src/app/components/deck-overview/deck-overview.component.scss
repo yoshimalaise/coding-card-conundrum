@@ -1,3 +1,16 @@
+.container {
+  padding: 10px;
+}
+
+.card-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    flex-direction: row;
+    gap: 12px;
+}
+
 /** customize the code highlight, hide the language and copy button **/
 ::ng-deep .code-toolbar > .toolbar {
     display: none !important;

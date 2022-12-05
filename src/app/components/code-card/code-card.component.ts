@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { CodeCard } from 'src/app/model/code-card.interface';
 
 @Component({
   selector: 'app-code-card',
@@ -6,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./code-card.component.scss'],
 })
 export class CodeCardComponent implements OnInit {
+  @Input() codeCard?: CodeCard;
 
   constructor() { }
 

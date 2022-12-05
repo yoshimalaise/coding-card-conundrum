@@ -1,0 +1,15 @@
+.card {
+    // card dimensions are 350x250mm
+    width: 250px;
+    height: 350px;
+    border: 2px solid black;
+    border-radius: 5px;
+    padding: 5px;
+    background-color: rgb(191, 188, 188);
+}
+
+.title-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
