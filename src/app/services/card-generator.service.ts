@@ -12,6 +12,8 @@ export class CardGeneratorService {
 
   comparators = ["<", "<=", ">=", ">", "!=="];
 
+  operators = ['+', '-', '%'];
+
   getEnvironmentCards(): EnvironmentCard[] {
     const res: EnvironmentCard[] = [];
     // generate 50 random initial environments
@@ -102,14 +104,15 @@ assert(${tmp[0]} === ${tmp[1]} &&
     do {
       const el = allVars.shift();
       allVars.forEach(el2 => {
+        const pivotEl = shuffleArray(this.variables.filter(v => v !== el && v!== el2))[0];
         res.push({
           title: 'Swap if smaller',
-          comment: `This piece of code will swap ${el} and ${el2} but only if ${el} is smaller than ${el2}`,
+          comment: `This piece of code will swap ${el} and ${el2} but only if ${el} is smaller than ${el2}. Watch out! This will overwrite ${pivotEl}`,
           snippet: `
 if (${el} < ${el2}) {
-  let tmp = ${el};
+  ${pivotEl} = ${el};
   ${el} = ${el2};
-  ${el2} = tmp;
+  ${el2} = ${pivotEl};
 }          
           `
         });
@@ -121,28 +124,35 @@ if (${el} < ${el2}) {
     do {
       const el = allVars.shift();
       allVars.forEach(el2 => {
+        const pivotEl = shuffleArray(this.variables.filter(v => v !== el && v!== el2))[0];
         res.push({
           title: 'Swap if bigger',
-          comment: `This piece of code will swap ${el} and ${el2} but only if ${el} is bigger than ${el2}`,
+          comment: `This piece of code will swap ${el} and ${el2} but only if ${el} is bigger than ${el2}. Watch out! This will overwrite ${pivotEl}`,
           snippet: `
 if (${el} > ${el2}) {
-  let tmp = ${el};
+  ${pivotEl} = ${el};
   ${el} = ${el2};
-  ${el2} = tmp;
+  ${el2} = ${pivotEl};
 }          
           `
         });
       });
     } while(allVars.length > 0);
 
-
-    // do stuff after if statements
-    this.comparators.forEach(c => {
-      const tmp = shuffleArray(this.variables);
-      `
-
-          `
-    });
+    // generate if else statements that perform mathematical operations on the vars
+    for (let i = 0; i < 30; i++) {
+      allVars = shuffleArray(this.variables);
+      res.push({
+        title: 'Heavy mathematics',
+        comment: 'This piece of code will perform mathematical operations on the variables depending on the condition in the if statement.',
+        snippet: `
+if (${allVars[0]} ${getRandomElFromArray(this.comparators)} ${allVars[1]}) {
+  ${allVars.map(v => `${v} = ${v} ${getRandomElFromArray(this.operators)} ${randomInt(0, 100)}`).join('\n  ')}
+}     
+        `
+      });
+    }
+    
 
     return shuffleArray(res);
   }
@@ -156,4 +166,8 @@ function shuffleArray(array: any[]) {
   return array.map(value => ({ value, sort: Math.random() }))
               .sort((a, b) => a.sort - b.sort)
               .map(({ value }) => value)
+}
+
+function getRandomElFromArray(array: any[]) {
+  return array[randomInt(0, array.length - 1)];
 }
