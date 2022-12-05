@@ -5,6 +5,8 @@ import { Player } from 'src/app/model/player.interface';
 import { GameStateService } from 'src/app/services/game-state.service';
 import { ModalController } from '@ionic/angular';
 import { AddPlayersModalComponent } from '../modals/add-players-modal/add-players-modal.component';
+import { GoalReachedModalComponent } from '../modals/goal-reached-modal/goal-reached-modal.component';
+import { EnvironmentCard } from 'src/app/model/environment-card.interface';
 
 
 @Component({
@@ -15,6 +17,7 @@ import { AddPlayersModalComponent } from '../modals/add-players-modal/add-player
 export class GameFieldComponent implements OnInit {
   currentPlayer: Player;
   selectedCard?: CodeCard;
+  trailsMarkedForDeletion: CardTrail[] = [];
 
   constructor(public model: GameStateService, private modalCtrl: ModalController) { 
     this.currentPlayer = model.getNextPlayer();
@@ -39,6 +42,7 @@ export class GameFieldComponent implements OnInit {
     this.currentPlayer.hand.push(this.model.codeCards.pop() as CodeCard);
     this.selectedCard = undefined;
     await this.checkForGoals();
+    await this.checkForGameOver();
     this.currentPlayer = this.model.getNextPlayer();
   }
 
@@ -53,13 +57,37 @@ export class GameFieldComponent implements OnInit {
           if (result) {
             // TODO: add finish trail functionality
             console.log("Player should get points :)");
+            const modal = await this.modalCtrl.create({
+              component: GoalReachedModalComponent,
+              componentProps: { 
+                card: p.goal,
+                player: p
+              }
+            });
+            modal.present();
+            await modal.onWillDismiss();
+            this.trailsMarkedForDeletion.push(trail)
           }
         } catch {
         }
       }))
     }));
+
+    // clear the completed trails
+    this.trailsMarkedForDeletion.forEach(t => {
+      t.codeCards = [];
+      t.environmentCard = this.model.environmentCards.pop() as EnvironmentCard;
+    });
+    this.trailsMarkedForDeletion = [];
   }
 
+  async checkForGameOver() {
+    this.model.players.forEach(p => {
+      if (p.score >= this.model.targetScore) {
+        // TODO: add win screen
+      }
+    });
+  }
 }
 
 const assertDeclaration = `

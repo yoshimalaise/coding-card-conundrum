@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Goal Reached!</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="confirm()">Confirm</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <div class="container">
+    <div class="name-section">
+      {{ player?.name }}
+    </div>
+    <app-goal-card [goalCard]="card"></app-goal-card>
+    <div class="score-section">
+      + {{ card?.score }}
+    </div>
+  </div>
+</ion-content>
