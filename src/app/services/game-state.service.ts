@@ -10,12 +10,10 @@ import { CardGeneratorService } from './card-generator.service';
   providedIn: 'root'
 })
 export class GameStateService {
-  
+  targetScore = 10;
   cardTrails: CardTrail[] = [];
   players: Player[] = [];
   currentPlayer: number = 0;
-
-  trailCount = 4;
   trails: CardTrail[] = []
 
   // decks
@@ -50,16 +48,16 @@ export class GameStateService {
 
     // reveal the first x starting environments and setup the trails
     this.trails = [];
-    for (let i = 0; i < this.trailCount; i++) {
+    for (let i = 0; i < this.players.length + 1; i++) {
       this.trails.push({ environmentCard: this.environmentCards.pop() as EnvironmentCard, codeCards: [] });
     }
+
+    // 1 or 2 players play to 20, 3 to 15, 4 to 10
+    this.targetScore = this.players.length < 3 ? 20 : this.players.length < 4 ? 15 : 20;
   }
 
   getNextPlayer(): Player {
     return this.players[this.currentPlayer++ % this.players.length];
   }
-
-  checkForGoals() {
-    throw new Error('Method not implemented.');
-  }
 }
+

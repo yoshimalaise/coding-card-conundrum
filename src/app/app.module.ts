@@ -11,12 +11,14 @@ import { EnvironmentCardComponent } from './components/environment-card/environm
 import { CodeCardComponent } from './components/code-card/code-card.component';
 import { GoalCardComponent } from './components/goal-card/goal-card.component';
 import { DeckOverviewComponent } from './components/deck-overview/deck-overview.component';
-import { DragulaModule } from 'ng2-dragula';
+import { AddPlayersModalComponent } from './components/modals/add-players-modal/add-players-modal.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [AppComponent, GameFieldComponent, EnvironmentCardComponent, CodeCardComponent, GoalCardComponent, DeckOverviewComponent],
+  declarations: [AppComponent, GameFieldComponent, EnvironmentCardComponent, CodeCardComponent, GoalCardComponent, 
+    DeckOverviewComponent, AddPlayersModalComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, DragulaModule.forRoot()],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, FormsModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
 })
