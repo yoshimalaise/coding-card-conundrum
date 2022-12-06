@@ -70,7 +70,8 @@ export class GameFieldComponent implements OnInit {
                 componentProps: { 
                   card: p.goal,
                   player: p
-                }
+                },
+                backdropDismiss:false
               });
               modal.present();
               await modal.onWillDismiss();
@@ -105,7 +106,8 @@ export class GameFieldComponent implements OnInit {
       component: TracetableModalComponent,
       componentProps: {
         trail: t
-      }
+      },
+      backdropDismiss:false
     });
     modal.present();
     await modal.onWillDismiss();
@@ -117,7 +119,8 @@ export class GameFieldComponent implements OnInit {
       componentProps: {
         sortedPlayers: this.model.players.sort((a, b) => b.score - a.score),
         targetScore: this.model.targetScore
-      }
+      },
+      backdropDismiss:false
     });
     modal.present();
     await modal.onWillDismiss();

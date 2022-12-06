@@ -16,6 +16,7 @@ export class HomePage {
     // this.model.players = [{name: 'Player one', hand: [], score: 0}];
     const modal = await this.modalCtrl.create({
       component: AddPlayersModalComponent,
+      backdropDismiss:false
     });
     modal.present();
     await modal.onWillDismiss();
