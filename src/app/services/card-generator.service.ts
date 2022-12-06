@@ -147,7 +147,7 @@ if (${el} > ${el2}) {
         comment: 'This piece of code will perform mathematical operations on the variables depending on the condition in the if statement.',
         snippet: `
 if (${allVars[0]} ${getRandomElFromArray(this.comparators)} ${allVars[1]}) {
-  ${allVars.map(v => `${v} = ${v} ${getRandomElFromArray(this.operators)} ${randomInt(0, 100)}`).join('\n  ')}
+  ${allVars.slice(0, 2).map(v => `${v} = ${v} ${getRandomElFromArray(this.operators)} ${randomInt(0, 100)};`).join('\n  ')}
 }     
         `
       });
