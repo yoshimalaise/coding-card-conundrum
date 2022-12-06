@@ -1,7 +1,7 @@
 .card {
     // card dimensions are 350x250mm
-    width: 250px;
-    height: 350px;
+    width: calc(250px * 0.7);
+    height: calc(350px * 0.7);
     border: 2px solid black;
     border-radius: 5px;
     padding: 5px;
