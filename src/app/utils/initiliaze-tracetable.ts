@@ -1,6 +1,7 @@
 import { CardTrail } from "../model/card-trail.interface";
 import { EnvironmentCard } from "../model/environment-card.interface";
 import { TracetableLine } from "../model/tracetable-line.interface";
+import { updateEnvironmentTable } from "./update-environment-table";
 
 export function initializeTracetable(t: CardTrail) {
     const res: TracetableLine[] = [];
@@ -41,11 +42,12 @@ getValues();
         ...emptyTemplate,
         z
     });
-    // add 100 empty lines
-    for( let i = 0; i < 100; i++) {
+    // add 95 empty lines
+    for( let i = 0; i < 95; i++) {
         res.push({
             ...emptyTemplate,
         });
     }
     t.tracetable = res;
+    updateEnvironmentTable(t);
 }

@@ -6,4 +6,5 @@ export interface CardTrail {
     environmentCard: EnvironmentCard;
     codeCards: CodeCard[];
     tracetable: TracetableLine[];
+    environment?: TracetableLine;
 }

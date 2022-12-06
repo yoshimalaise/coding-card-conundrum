@@ -9,6 +9,7 @@ import { GoalReachedModalComponent } from '../modals/goal-reached-modal/goal-rea
 import { EnvironmentCard } from 'src/app/model/environment-card.interface';
 import { PlayerRankingModalComponent } from '../modals/player-ranking-modal/player-ranking-modal.component';
 import { initializeTracetable } from 'src/app/utils/initiliaze-tracetable';
+import { TracetableModalComponent } from '../modals/tracetable-modal/tracetable-modal.component';
 
 
 @Component({
@@ -99,7 +100,15 @@ export class GameFieldComponent implements OnInit {
   }
   
   async showTraceTable(t: CardTrail) {
-
+    // TracetableModalComponent
+    const modal = await this.modalCtrl.create({
+      component: TracetableModalComponent,
+      componentProps: {
+        trail: t
+      }
+    });
+    modal.present();
+    await modal.onWillDismiss();
   }
 
   async showPlayerRanking() {

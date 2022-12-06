@@ -58,6 +58,25 @@
   margin-left: 25px;
 }
 
+table {
+  width: 100%;
+  border: 2px solid black;
+}
+
+tr {
+  text-align: center;
+}
+
+tr:nth-child(odd) {
+  background-color: #ffffff;
+  color: black;
+}
+
+tr:nth-child(even) {
+  background-color: #3b3a3a;
+  color: white;
+}
+
 /** customize the code highlight, hide the language and copy button **/
 ::ng-deep .code-toolbar > .toolbar {
     display: none !important;

@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Trace Table</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="confirm()">Confirm</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <div class="container">
+   <div class="code-container">
+    <snippet-highlight class="snippet" theme="dark" language="javascript" [content]="code"></snippet-highlight>
+   </div>
+
+   <div class="table-container" *ngIf="trail">
+    <table>
+      <tr>
+        <th>#</th>
+        <th>foo</th> 
+        <th>bar</th>
+        <th>x</th>
+        <th>y</th>
+        <th>z</th>
+      </tr>
+      <tr *ngFor="let l of trail.tracetable; let i = index;">
+        <td>{{ i + 1 }}</td>
+        <td>{{ l.foo }}</td>
+        <td>{{ l.bar }}</td>
+        <td>{{ l.x }}</td>
+        <td>{{ l.y }}</td>
+        <td>{{ l.z }}</td>
+      </tr>
+    </table>
+   </div>
+  </div>
+</ion-content>

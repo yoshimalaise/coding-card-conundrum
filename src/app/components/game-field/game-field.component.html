@@ -19,6 +19,22 @@
   <div class="container" *ngIf="currentPlayer">
    <div class="table-zone">
     <div class="trail" *ngFor="let t of model.trails; let i = index">
+      <table *ngIf="t.environment">
+        <tr>
+          <th>foo</th> 
+          <th>bar</th>
+          <th>x</th>
+          <th>y</th>
+          <th>z</th>
+        </tr>
+        <tr>
+          <td>{{ t.environment.foo }}</td>
+          <td>{{ t.environment.bar }}</td>
+          <td>{{ t.environment.x }}</td>
+          <td>{{ t.environment.y }}</td>
+          <td>{{ t.environment.z }}</td>
+        </tr>
+      </table>
       <h1 class="trail-title">Environment  {{ i + 1 }} - <ion-button (click)="showTraceTable(t)" class="trace-table-button"><ion-icon name="file-tray-full-outline"></ion-icon></ion-button></h1>
       <snippet-highlight class="snippet trail-environment" theme="dark" language="javascript" [content]="t.environmentCard.declarationsSnippet"></snippet-highlight>
       <snippet-highlight class="snippet trail-card" theme="dark" language="javascript" *ngFor="let c of t.codeCards" [content]="c.snippet"></snippet-highlight>
