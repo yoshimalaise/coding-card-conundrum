@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { CardTrail } from 'src/app/model/card-trail.interface';
-import { updateEnvironmentTable } from 'src/app/utils/update-environment-table';
+import { updateEnvironmentTableByTracelines } from 'src/app/utils/update-environment-table';
 
 @Component({
   selector: 'app-tracetable-modal',
@@ -11,6 +11,12 @@ import { updateEnvironmentTable } from 'src/app/utils/update-environment-table';
 export class TracetableModalComponent implements OnInit {
   trail?: CardTrail = undefined;
   code: string = "";
+
+  foo: string = "";
+  bar: string = "";
+  x: string = "";
+  y: string = "";
+  z: string = "";
 
   constructor(private modalCtrl: ModalController) { 
   }
@@ -23,8 +29,26 @@ export class TracetableModalComponent implements OnInit {
   }
 
   confirm() {
-    updateEnvironmentTable(this.trail as CardTrail);
+    updateEnvironmentTableByTracelines(this.trail as CardTrail);
     return this.modalCtrl.dismiss(null, 'confirm');
+  }
+
+  addLine() {
+    if (!this.trail) {
+      return
+    }
+    this.trail.tracetable.push({
+      foo: this.foo,
+      bar: this.bar,
+      x: this.x,
+      y: this.y,
+      z: this.z
+    });
+    this.foo = "";
+    this.bar = "";
+    this.x = "";
+    this.y = "";
+    this.z = "";
   }
 
 }

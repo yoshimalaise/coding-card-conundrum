@@ -13,6 +13,16 @@
    </div>
 
    <div class="table-container" *ngIf="trail">
+    <div class="add-line-container">
+      <div class="input-fields">
+        <ion-input class="input-field" [(ngModel)]="foo" placeholder="foo"></ion-input>
+        <ion-input class="input-field" [(ngModel)]="bar" placeholder="bar"></ion-input>
+        <ion-input class="input-field" [(ngModel)]="x" placeholder="x"></ion-input>
+        <ion-input class="input-field" [(ngModel)]="y" placeholder="y"></ion-input>
+        <ion-input class="input-field" [(ngModel)]="z" placeholder="z"></ion-input>
+      </div>
+      <ion-button class="addline-button" (click)="addLine()">Add line</ion-button>
+    </div>
     <table>
       <tr>
         <th>#</th>

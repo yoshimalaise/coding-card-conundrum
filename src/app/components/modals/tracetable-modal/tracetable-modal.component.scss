@@ -19,6 +19,18 @@
     overflow-y: auto;
 }
 
+.input-fields {
+    display: flex;
+    flex-direction: row;
+}
+.input-field {
+    width: 20%;
+}
+
+.addline-button {
+    width: 100%;
+}
+
 table {
     width: 100%;
 }
@@ -31,4 +43,4 @@ tr:nth-child(even) {
     background-color: #3b3a3a;
     color: white;
   
-  }
+}
