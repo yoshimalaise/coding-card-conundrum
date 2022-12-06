@@ -16,6 +16,8 @@
 
 .add-btn {
   width: 100%;
+  position: relative;
+  top: 4px;
 }
 
 .hand-zone {
@@ -23,9 +25,17 @@
   background-color: chocolate;
 }
 
-.trail-card {
-  position: relative;
-  top: -150px;
+.trail {
+  // background: white;
+  border: 3px dashed black;
+  border-radius: 16px;
+  padding: 8px;
+  margin: 8px;
+}
+
+.trail-title {
+  width: 100%;
+  text-align: center;
 }
 
 .hand {

@@ -13,9 +13,10 @@
 
   <div class="container" *ngIf="currentPlayer">
    <div class="table-zone">
-    <div class="trail" *ngFor="let t of model.trails">
-      <app-environment-card [environmentCard]="t.environmentCard"></app-environment-card>
-      <app-code-card class="trail-card" *ngFor="let c of t.codeCards" [codeCard]="c"></app-code-card>
+    <div class="trail" *ngFor="let t of model.trails; let i = index">
+      <h1 class="trail-title">Environment  {{ i + 1 }}</h1>
+      <snippet-highlight class="snippet trail-environment" theme="dark" language="javascript" [content]="t.environmentCard.declarationsSnippet"></snippet-highlight>
+      <snippet-highlight class="snippet trail-card" theme="dark" language="javascript" *ngFor="let c of t.codeCards" [content]="c.snippet"></snippet-highlight>
       <ion-button (click)="addCard(t)" *ngIf="selectedCard" class="add-btn">Add card here</ion-button>
     </div>
    </div>
