@@ -10,6 +10,8 @@ import { EnvironmentCard } from 'src/app/model/environment-card.interface';
 import { PlayerRankingModalComponent } from '../modals/player-ranking-modal/player-ranking-modal.component';
 import { initializeTracetable } from 'src/app/utils/initiliaze-tracetable';
 import { TracetableModalComponent } from '../modals/tracetable-modal/tracetable-modal.component';
+import { GameOverModelComponent } from '../modals/game-over-model/game-over-model.component';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -22,7 +24,7 @@ export class GameFieldComponent implements OnInit {
   selectedCard?: CodeCard;
   trailsMarkedForDeletion: CardTrail[] = [];
 
-  constructor(public model: GameStateService, private modalCtrl: ModalController) { 
+  constructor(public model: GameStateService, private modalCtrl: ModalController, private router: Router) { 
     this.currentPlayer = model.getNextPlayer();
   }
 
@@ -93,11 +95,20 @@ export class GameFieldComponent implements OnInit {
   }
 
   async checkForGameOver() {
-    this.model.players.forEach(p => {
+    await Promise.all(this.model.players.map(async p => {
       if (p.score >= this.model.targetScore) {
-        // TODO: add win screen
+        const modal = await this.modalCtrl.create({
+          component: GameOverModelComponent,
+          componentProps: {
+            winningPlayer: p
+          },
+          backdropDismiss:false
+        });
+        modal.present();
+        await modal.onWillDismiss();
+        this.router.navigate(['home'])
       }
-    });
+    }));
   }
   
   async showTraceTable(t: CardTrail) {

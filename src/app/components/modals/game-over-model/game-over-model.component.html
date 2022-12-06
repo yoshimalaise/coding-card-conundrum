@@ -1,3 +1,14 @@
-<p>
-  game-over-model works!
-</p>
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Game over</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="confirm()">Confirm</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <div class="container">
+    {{ winningPlayer?.name }} has won the game
+  </div>
+  
+</ion-content>
