@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Player Ranking</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="confirm()">Confirm</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <div class="container">
+    <ion-list>
+      <ion-item *ngFor="let p of sortedPlayers; let i = index;">
+        <div class="score-entry">
+          <ion-label> {{ i + 1 }}. {{ p.name }} </ion-label>
+          <ion-label> {{ p.score }} </ion-label>
+        </div>
+      </ion-item>
+    </ion-list>
+
+    <div class="goal-description">
+      The first player to reach {{ targetScore }} points wins!
+    </div>
+  </div>
+  
+</ion-content>

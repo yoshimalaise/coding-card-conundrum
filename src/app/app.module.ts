@@ -14,10 +14,11 @@ import { DeckOverviewComponent } from './components/deck-overview/deck-overview.
 import { AddPlayersModalComponent } from './components/modals/add-players-modal/add-players-modal.component';
 import { FormsModule } from '@angular/forms';
 import { GoalReachedModalComponent } from './components/modals/goal-reached-modal/goal-reached-modal.component';
+import { PlayerRankingModalComponent } from './components/modals/player-ranking-modal/player-ranking-modal.component';
 
 @NgModule({
   declarations: [AppComponent, GameFieldComponent, EnvironmentCardComponent, CodeCardComponent, GoalCardComponent, 
-    DeckOverviewComponent, AddPlayersModalComponent, GoalReachedModalComponent],
+    DeckOverviewComponent, AddPlayersModalComponent, GoalReachedModalComponent, PlayerRankingModalComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, FormsModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],

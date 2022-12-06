@@ -6,6 +6,11 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="showPlayerRanking()">
+        <ion-icon name="trophy-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -14,7 +19,7 @@
   <div class="container" *ngIf="currentPlayer">
    <div class="table-zone">
     <div class="trail" *ngFor="let t of model.trails; let i = index">
-      <h1 class="trail-title">Environment  {{ i + 1 }}</h1>
+      <h1 class="trail-title">Environment  {{ i + 1 }} - <ion-button (click)="showTraceTable(t)" class="trace-table-button"><ion-icon name="file-tray-full-outline"></ion-icon></ion-button></h1>
       <snippet-highlight class="snippet trail-environment" theme="dark" language="javascript" [content]="t.environmentCard.declarationsSnippet"></snippet-highlight>
       <snippet-highlight class="snippet trail-card" theme="dark" language="javascript" *ngFor="let c of t.codeCards" [content]="c.snippet"></snippet-highlight>
       <ion-button (click)="addCard(t)" *ngIf="selectedCard" class="add-btn">Add card here</ion-button>

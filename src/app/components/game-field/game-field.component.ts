@@ -7,6 +7,7 @@ import { ModalController } from '@ionic/angular';
 import { AddPlayersModalComponent } from '../modals/add-players-modal/add-players-modal.component';
 import { GoalReachedModalComponent } from '../modals/goal-reached-modal/goal-reached-modal.component';
 import { EnvironmentCard } from 'src/app/model/environment-card.interface';
+import { PlayerRankingModalComponent } from '../modals/player-ranking-modal/player-ranking-modal.component';
 
 
 @Component({
@@ -87,6 +88,22 @@ export class GameFieldComponent implements OnInit {
         // TODO: add win screen
       }
     });
+  }
+  
+  async showTraceTable(t: CardTrail) {
+
+  }
+
+  async showPlayerRanking() {
+    const modal = await this.modalCtrl.create({
+      component: PlayerRankingModalComponent,
+      componentProps: {
+        sortedPlayers: this.model.players.sort((a, b) => a.score - b.score),
+        targetScore: this.model.targetScore
+      }
+    });
+    modal.present();
+    await modal.onWillDismiss();
   }
 }
 
