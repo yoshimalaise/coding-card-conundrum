@@ -12,6 +12,7 @@ import { initializeTracetable } from 'src/app/utils/initiliaze-tracetable';
 import { TracetableModalComponent } from '../modals/tracetable-modal/tracetable-modal.component';
 import { GameOverModelComponent } from '../modals/game-over-model/game-over-model.component';
 import { Router } from '@angular/router';
+import { HandOverModalComponent } from '../modals/hand-over-modal/hand-over-modal.component';
 
 
 @Component({
@@ -23,6 +24,7 @@ export class GameFieldComponent implements OnInit {
   currentPlayer: Player;
   selectedCard?: CodeCard;
   trailsMarkedForDeletion: CardTrail[] = [];
+  showCards = true;
 
   constructor(public model: GameStateService, private modalCtrl: ModalController, private router: Router) { 
     this.currentPlayer = model.getNextPlayer();
@@ -42,13 +44,33 @@ export class GameFieldComponent implements OnInit {
     if (!this.selectedCard) {
       return
     }
+
+    // add the card to the trail
     t.codeCards.push(this.selectedCard);
     this.currentPlayer.hand = this.currentPlayer.hand.filter(c => c !== this.selectedCard);
+
+    // allow the user to update the trace table
+    await this.showTraceTable(t);
+
+    // draw new card and check for game progress
     this.currentPlayer.hand.push(this.model.codeCards.pop() as CodeCard);
     this.selectedCard = undefined;
     await this.checkForGoals();
     await this.checkForGameOver();
+
+    // start handover to next player
+    this.showCards = false;
     this.currentPlayer = this.model.getNextPlayer();
+    const modal = await this.modalCtrl.create({
+      component: HandOverModalComponent,
+      componentProps: {
+        nextPlayer: this.currentPlayer
+      },
+      backdropDismiss:false
+    });
+    modal.present();
+    await modal.onWillDismiss();
+    this.showCards = true;
   }
 
   async checkForGoals() {

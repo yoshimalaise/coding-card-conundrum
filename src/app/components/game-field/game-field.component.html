@@ -42,7 +42,7 @@
     </div>
    </div>
 
-   <div class="hand-zone">
+   <div *ngIf="showCards" class="hand-zone">
      <div class="hand">
       <app-code-card [class]="selectedCard === c ? 'selected-card' : ''" (click)="selectCard(c)" *ngFor="let c of currentPlayer.hand" [codeCard]="c"></app-code-card>
 
