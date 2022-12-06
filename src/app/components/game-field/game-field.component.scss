@@ -2,12 +2,12 @@
   display: block;
   width: 100%;
   height: 100%;
+  background-image: url("../../../assets/wooden-bg.jpg");
 }
 
 .table-zone {
   width: 100%;
   height: calc(100% - 350px);
-  background-color: aqua;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
@@ -22,12 +22,13 @@
 
 .hand-zone {
   width: 100%;
-  background-color: chocolate;
+  // background-color: chocolate;
 }
 
 .trail {
   // background: white;
-  border: 3px dashed black;
+  border: 3px dashed white;
+  color: white;
   border-radius: 16px;
   padding: 8px;
   margin: 8px;
