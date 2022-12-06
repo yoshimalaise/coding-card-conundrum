@@ -50,6 +50,7 @@ export class GameFieldComponent implements OnInit {
   async checkForGoals() {
     await Promise.all(this.model.trails.map(async trail => {
       const trailCode = assertDeclaration + trail.environmentCard.declarationsSnippet + '\n' + trail.codeCards.map(c => c.snippet).join("\n");
+      const playersThatReceivedScore: Player[]  = [];
       await Promise.all(this.model.players.map(async  p => {
         const code = trailCode + '\n' + p.goal?.assertionSnippet;
         try {
@@ -58,16 +59,20 @@ export class GameFieldComponent implements OnInit {
           if (result) {
             // TODO: add finish trail functionality
             console.log("Player should get points :)");
-            const modal = await this.modalCtrl.create({
-              component: GoalReachedModalComponent,
-              componentProps: { 
-                card: p.goal,
-                player: p
-              }
-            });
-            modal.present();
-            await modal.onWillDismiss();
-            this.trailsMarkedForDeletion.push(trail)
+            if (!playersThatReceivedScore.includes(p)) {
+              p.score += p.goal?.score ?? 0;
+              playersThatReceivedScore.push(p);
+              const modal = await this.modalCtrl.create({
+                component: GoalReachedModalComponent,
+                componentProps: { 
+                  card: p.goal,
+                  player: p
+                }
+              });
+              modal.present();
+              await modal.onWillDismiss();
+              this.trailsMarkedForDeletion.push(trail)
+            }
           }
         } catch {
         }
@@ -98,7 +103,7 @@ export class GameFieldComponent implements OnInit {
     const modal = await this.modalCtrl.create({
       component: PlayerRankingModalComponent,
       componentProps: {
-        sortedPlayers: this.model.players.sort((a, b) => a.score - b.score),
+        sortedPlayers: this.model.players.sort((a, b) => b.score - a.score),
         targetScore: this.model.targetScore
       }
     });
