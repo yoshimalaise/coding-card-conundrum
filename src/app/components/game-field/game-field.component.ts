@@ -8,6 +8,7 @@ import { AddPlayersModalComponent } from '../modals/add-players-modal/add-player
 import { GoalReachedModalComponent } from '../modals/goal-reached-modal/goal-reached-modal.component';
 import { EnvironmentCard } from 'src/app/model/environment-card.interface';
 import { PlayerRankingModalComponent } from '../modals/player-ranking-modal/player-ranking-modal.component';
+import { initializeTracetable } from 'src/app/utils/initiliaze-tracetable';
 
 
 @Component({
@@ -48,10 +49,10 @@ export class GameFieldComponent implements OnInit {
   }
 
   async checkForGoals() {
-    await Promise.all(this.model.trails.map(async trail => {
-      const trailCode = assertDeclaration + trail.environmentCard.declarationsSnippet + '\n' + trail.codeCards.map(c => c.snippet).join("\n");
-      const playersThatReceivedScore: Player[]  = [];
-      await Promise.all(this.model.players.map(async  p => {
+    const playersThatReceivedScore: Player[]  = [];
+    await Promise.all(this.model.players.map(async  p => {
+      await Promise.all(this.model.trails.map(async trail => {
+        const trailCode = assertDeclaration + trail.environmentCard.declarationsSnippet + '\n' + trail.codeCards.map(c => c.snippet).join("\n");
         const code = trailCode + '\n' + p.goal?.assertionSnippet;
         try {
           let result = eval(code);
@@ -59,6 +60,7 @@ export class GameFieldComponent implements OnInit {
           if (result) {
             // TODO: add finish trail functionality
             console.log("Player should get points :)");
+            p.goal = this.model.goalCards.pop();
             if (!playersThatReceivedScore.includes(p)) {
               p.score += p.goal?.score ?? 0;
               playersThatReceivedScore.push(p);
@@ -83,6 +85,7 @@ export class GameFieldComponent implements OnInit {
     this.trailsMarkedForDeletion.forEach(t => {
       t.codeCards = [];
       t.environmentCard = this.model.environmentCards.pop() as EnvironmentCard;
+      initializeTracetable(t);
     });
     this.trailsMarkedForDeletion = [];
   }

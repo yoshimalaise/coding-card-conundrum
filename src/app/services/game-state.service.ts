@@ -4,6 +4,7 @@ import { CodeCard } from '../model/code-card.interface';
 import { EnvironmentCard } from '../model/environment-card.interface';
 import { GoalCard } from '../model/goal-card.interface';
 import { Player } from '../model/player.interface';
+import { initializeTracetable } from '../utils/initiliaze-tracetable';
 import { CardGeneratorService } from './card-generator.service';
 
 @Injectable({
@@ -49,8 +50,9 @@ export class GameStateService {
     // reveal the first x starting environments and setup the trails
     this.trails = [];
     for (let i = 0; i < this.players.length + 1; i++) {
-      this.trails.push({ environmentCard: this.environmentCards.pop() as EnvironmentCard, codeCards: [] });
+      this.trails.push({ environmentCard: this.environmentCards.pop() as EnvironmentCard, codeCards: [], tracetable: [] });
     }
+    this.trails.forEach(t => initializeTracetable(t));
 
     // 1 or 2 players play to 20, 3 to 15, 4 to 10
     this.targetScore = this.players.length < 3 ? 20 : this.players.length < 4 ? 15 : 20;
