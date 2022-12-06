@@ -47,6 +47,5 @@ getValues();
             ...emptyTemplate,
         });
     }
-    console.log(res);
     t.tracetable = res;
 }
