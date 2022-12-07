@@ -23,7 +23,6 @@ import { HandOverModalComponent } from '../modals/hand-over-modal/hand-over-moda
 export class GameFieldComponent implements OnInit {
   currentPlayer: Player;
   selectedCard?: CodeCard;
-  trailsMarkedForDeletion: CardTrail[] = [];
   showCards = true;
 
   constructor(public model: GameStateService, private modalCtrl: ModalController, private router: Router) { 
@@ -55,7 +54,7 @@ export class GameFieldComponent implements OnInit {
     // draw new card and check for game progress
     this.currentPlayer.hand.push(this.model.codeCards.pop() as CodeCard);
     this.selectedCard = undefined;
-    await this.checkForGoals();
+    await this.checkForGoals(t, this.currentPlayer);
     await this.checkForGameOver();
 
     // start handover to next player
@@ -73,47 +72,41 @@ export class GameFieldComponent implements OnInit {
     this.showCards = true;
   }
 
-  async checkForGoals() {
-    const playersThatReceivedScore: Player[]  = [];
-    await Promise.all(this.model.players.map(async  p => {
-      await Promise.all(this.model.trails.map(async trail => {
-        const trailCode = assertDeclaration + trail.environmentCard.declarationsSnippet + '\n' + trail.codeCards.map(c => c.snippet).join("\n");
-        const code = trailCode + '\n' + p.goal?.assertionSnippet;
-        try {
-          let result = eval(code);
-          console.log('checking for: ', code, result);
-          if (result) {
-            // TODO: add finish trail functionality
-            console.log("Player should get points :)");
-            p.goal = this.model.goalCards.pop();
-            if (!playersThatReceivedScore.includes(p)) {
-              p.score += p.goal?.score ?? 0;
-              playersThatReceivedScore.push(p);
-              const modal = await this.modalCtrl.create({
-                component: GoalReachedModalComponent,
-                componentProps: { 
-                  card: p.goal,
-                  player: p
-                },
-                backdropDismiss:false
-              });
-              modal.present();
-              await modal.onWillDismiss();
-              this.trailsMarkedForDeletion.push(trail)
-            }
-          }
-        } catch {
-        }
-      }))
-    }));
-
-    // clear the completed trails
-    this.trailsMarkedForDeletion.forEach(t => {
-      t.codeCards = [];
-      t.environmentCard = this.model.environmentCards.pop() as EnvironmentCard;
-      initializeTracetable(t);
-    });
-    this.trailsMarkedForDeletion = [];
+  /**
+   * New rules, 
+   * only check for goal once a card has been played on a trail,
+   * only check for that trail of cards and for the player who just played
+   */
+  async checkForGoals(t: CardTrail, p: Player) {
+    
+    const trailCode = assertDeclaration + t.environmentCard.declarationsSnippet + '\n' + t.codeCards.map(c => c.snippet).join("\n");
+    const code = trailCode + '\n' + p.goal?.assertionSnippet;
+    try {
+      let result = eval(code);
+      console.log('checking for: ', code, result);
+      if (result) {
+        // draw a new goal card
+        p.goal = this.model.goalCards.pop();
+        // increate the player score
+        p.score += p.goal?.score ?? 0;
+        //show the goal reached modal
+        const modal = await this.modalCtrl.create({
+          component: GoalReachedModalComponent,
+          componentProps: { 
+            card: p.goal,
+            player: p
+          },
+          backdropDismiss:false
+        });
+        modal.present();
+        await modal.onWillDismiss();
+        // start a new trail with new environment card
+        t.codeCards = [];
+        t.environmentCard = this.model.environmentCards.pop() as EnvironmentCard;
+        initializeTracetable(t);
+      }
+    } catch {
+    }
   }
 
   async checkForGameOver() {
