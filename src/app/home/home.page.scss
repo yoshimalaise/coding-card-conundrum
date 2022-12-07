@@ -1,16 +1,30 @@
+.background {
+  width: 100%;
+  height: 100%;
+  background-image: url("../../assets/wooden-bg.jpg");
+}
+
 #container {
   text-align: center;
-
   position: absolute;
   left: 50%;
   width: 50%;
   top: 50%;
+  max-width: 800px;
   transform: translateY(-50%) translateX(-50%);
   display: flex;
   flex-direction: column;
+  background-color: #a9a9a955;
+  padding: 15px;
+  border-radius: 10px;
+  border: 2px solid black;
 }
 
 #container strong {
   font-size: 20px;
   line-height: 26px;
+}
+
+.menu-button {
+  padding-top: 8px;
 }

@@ -8,9 +8,12 @@
 
 <ion-content [fullscreen]="true">
 
-  <div id="container">
-    <strong>CodeCards</strong>
-   <ion-button (click)="startGame()">Start Game</ion-button>
-   <ion-button (click)="showDeckOverview()">Deck Overview</ion-button>
+  <div class="background">
+
+    <div id="container">
+    <img alt="logo" class="logo" src="assets/codecards-logo.png"/>
+     <ion-button class="menu-button" (click)="startGame()">Start Game</ion-button>
+     <ion-button class="menu-button" (click)="showDeckOverview()">Deck Overview</ion-button>
+    </div>
   </div>
 </ion-content>
