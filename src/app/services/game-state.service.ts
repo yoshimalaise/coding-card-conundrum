@@ -5,6 +5,7 @@ import { EnvironmentCard } from '../model/environment-card.interface';
 import { GoalCard } from '../model/goal-card.interface';
 import { Player } from '../model/player.interface';
 import { initializeTracetable } from '../utils/initiliaze-tracetable';
+import { shuffleArray } from '../utils/shuffle-array';
 import { CardGeneratorService } from './card-generator.service';
 
 @Injectable({
@@ -15,12 +16,17 @@ export class GameStateService {
   cardTrails: CardTrail[] = [];
   players: Player[] = [];
   currentPlayer: number = 0;
-  trails: CardTrail[] = []
+  trails: CardTrail[] = [];
 
   // decks
   goalCards: GoalCard[] = [];
   codeCards: CodeCard[] = [];
   environmentCards: EnvironmentCard[] = [];
+
+  // discard piles
+  discardedGoalCards: GoalCard[] = [];
+  discardedCodeCards: CodeCard[] = [];
+  discardedEnvironmentCards: EnvironmentCard[] = [];
 
 
   constructor(private generator: CardGeneratorService) {
@@ -31,6 +37,9 @@ export class GameStateService {
     this.goalCards = this.generator.getGoalCards();
     this.codeCards = this.generator.getCodeCards();
     this.environmentCards = this.generator.getEnvironmentCards();
+    this.discardedCodeCards = [];
+    this.discardedEnvironmentCards = [];
+    this.discardedGoalCards = [];
 
     // decks are generated, time to deal the cards
     this.players.forEach( p => {
@@ -39,18 +48,18 @@ export class GameStateService {
       // every player gets 5 cards from the code deck
       const pHand = [];
       for (let i = 0; i < 5; i++) {
-        pHand.push(this.codeCards.pop());
+        pHand.push(this.drawCodeCard());
       }
-      p.hand = pHand.filter(c => c !== undefined) as CodeCard[];
+      p.hand = pHand;
 
       // every player gets 1 goal card
-      p.goal = this.goalCards.pop();
+      p.goal = this.drawGoalCard();
     });
 
     // reveal the first x starting environments and setup the trails
     this.trails = [];
     for (let i = 0; i < this.players.length + 1; i++) {
-      this.trails.push({ environmentCard: this.environmentCards.pop() as EnvironmentCard, codeCards: [], tracetable: [] });
+      this.trails.push({ environmentCard: this.drawEnvironmentCard(), codeCards: [], tracetable: [] });
     }
     this.trails.forEach(t => initializeTracetable(t));
 
@@ -60,6 +69,30 @@ export class GameStateService {
 
   getNextPlayer(): Player {
     return this.players[this.currentPlayer++ % this.players.length];
+  }
+
+  drawGoalCard(): GoalCard {
+    if (this.goalCards.length === 0) {
+      shuffleArray(this.discardedGoalCards).forEach(c => this.goalCards.push(c));
+      this.discardedGoalCards = []; 
+    }
+    return this.goalCards.pop() as GoalCard;
+  }
+
+  drawEnvironmentCard(): EnvironmentCard {
+    if (this.environmentCards.length === 0) {
+      shuffleArray(this.discardedEnvironmentCards).forEach(c => this.environmentCards.push(c));
+      this.discardedEnvironmentCards = []; 
+    }
+    return this.environmentCards.pop() as EnvironmentCard;
+  }
+
+  drawCodeCard(): CodeCard {
+    if (this.codeCards.length === 0) {
+      shuffleArray(this.discardedCodeCards).forEach(c => this.codeCards.push(c));
+      this.discardedCodeCards = []; 
+    }
+    return this.codeCards.pop() as CodeCard;
   }
 }
 

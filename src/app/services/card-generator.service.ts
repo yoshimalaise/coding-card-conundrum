@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { EnvironmentCard } from '../model/environment-card.interface';
 import { CodeCard } from '../model/code-card.interface';
 import { GoalCard } from '../model/goal-card.interface';
+import { shuffleArray } from '../utils/shuffle-array';
 
 @Injectable({
   providedIn: 'root'
@@ -160,12 +161,6 @@ if (${allVars[0]} ${getRandomElFromArray(this.comparators)} ${allVars[1]}) {
 
 function randomInt(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1)) + min
-}
-
-function shuffleArray(array: any[]) {
-  return array.map(value => ({ value, sort: Math.random() }))
-              .sort((a, b) => a.sort - b.sort)
-              .map(({ value }) => value)
 }
 
 function getRandomElFromArray(array: any[]) {

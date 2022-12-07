@@ -13,6 +13,7 @@ import { TracetableModalComponent } from '../modals/tracetable-modal/tracetable-
 import { GameOverModelComponent } from '../modals/game-over-model/game-over-model.component';
 import { Router } from '@angular/router';
 import { HandOverModalComponent } from '../modals/hand-over-modal/hand-over-modal.component';
+import { GoalCard } from 'src/app/model/goal-card.interface';
 
 
 @Component({
@@ -31,10 +32,6 @@ export class GameFieldComponent implements OnInit {
 
   ngOnInit() {}
 
-  handleDrop(event: any) {
-    console.log(event);
-  }
-
   selectCard(c: CodeCard) {
     this.selectedCard = c;
   }
@@ -52,7 +49,7 @@ export class GameFieldComponent implements OnInit {
     await this.showTraceTable(t);
 
     // draw new card and check for game progress
-    this.currentPlayer.hand.push(this.model.codeCards.pop() as CodeCard);
+    this.currentPlayer.hand.push(this.model.drawCodeCard());
     this.selectedCard = undefined;
     await this.checkForGoals(t, this.currentPlayer);
     await this.checkForGameOver();
@@ -86,7 +83,8 @@ export class GameFieldComponent implements OnInit {
       console.log('checking for: ', code, result);
       if (result) {
         // draw a new goal card
-        p.goal = this.model.goalCards.pop();
+        this.model.discardedGoalCards.push(p.goal as GoalCard);
+        p.goal = this.model.drawGoalCard();
         // increate the player score
         p.score += p.goal?.score ?? 0;
         //show the goal reached modal
@@ -101,8 +99,10 @@ export class GameFieldComponent implements OnInit {
         modal.present();
         await modal.onWillDismiss();
         // start a new trail with new environment card
+        t.codeCards.forEach(c => this.model.discardedCodeCards.push(c));
+        this.model.discardedEnvironmentCards.push(t.environmentCard);
         t.codeCards = [];
-        t.environmentCard = this.model.environmentCards.pop() as EnvironmentCard;
+        t.environmentCard = this.model.drawEnvironmentCard();
         initializeTracetable(t);
       }
     } catch {
