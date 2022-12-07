@@ -46,6 +46,7 @@
      <div class="hand">
       <app-code-card [class]="selectedCard === c ? 'selected-card' : ''" (click)="selectCard(c)" *ngFor="let c of currentPlayer.hand" [codeCard]="c"></app-code-card>
 
+      <div class="divider"></div>
       <div class="goal-container">
         <app-goal-card *ngIf="currentPlayer.goal" [goalCard]="currentPlayer.goal"></app-goal-card>
        </div>
