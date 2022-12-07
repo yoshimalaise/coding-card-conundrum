@@ -14,6 +14,7 @@ export class HomePage {
 
   async startGame() {
     // this.model.players = [{name: 'Player one', hand: [], score: 0}];
+    this.model.showTutorial = false;
     const modal = await this.modalCtrl.create({
       component: AddPlayersModalComponent,
       backdropDismiss:false
@@ -28,6 +29,13 @@ export class HomePage {
     // this.model.players = [{name: 'Player one', hand: [], score: 0}];
     this.model.setup();
     this.router.navigate(['deck-overview']);
+  }
+
+  startTutorial() {
+    this.model.players = [{name: 'Demo Player', hand: [], score: 0}];
+    this.model.showTutorial = true;
+    this.model.setup();
+    this.router.navigate(['game-field']);
   }
 
 }

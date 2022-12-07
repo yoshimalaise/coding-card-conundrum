@@ -12,6 +12,7 @@ import { CardGeneratorService } from './card-generator.service';
   providedIn: 'root'
 })
 export class GameStateService {
+  showTutorial = false;
   targetScore = 10;
   cardTrails: CardTrail[] = [];
   players: Player[] = [];

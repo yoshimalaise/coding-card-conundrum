@@ -7,7 +7,7 @@
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-buttons slot="end">
-      <ion-button (click)="showPlayerRanking()">
+      <ion-button class="trophy-button" (click)="showPlayerRanking()">
         <ion-icon name="trophy-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -19,7 +19,7 @@
   <div class="container" *ngIf="currentPlayer">
    <div class="table-zone">
     <div class="trail" *ngFor="let t of model.trails; let i = index">
-      <table *ngIf="t.environment">
+      <table class="environment-table" *ngIf="t.environment">
         <tr>
           <th>foo</th> 
           <th>bar</th>

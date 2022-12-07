@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { CardTrail } from 'src/app/model/card-trail.interface';
 import { CodeCard } from 'src/app/model/code-card.interface';
 import { Player } from 'src/app/model/player.interface';
@@ -14,6 +14,9 @@ import { GameOverModelComponent } from '../modals/game-over-model/game-over-mode
 import { Router } from '@angular/router';
 import { HandOverModalComponent } from '../modals/hand-over-modal/hand-over-modal.component';
 import { GoalCard } from 'src/app/model/goal-card.interface';
+import { ShepherdService } from 'angular-shepherd';
+import { defaultStepOptions } from 'src/app/tutorial/options';
+import { tutorialSteps } from 'src/app/tutorial/steps';
 
 
 @Component({
@@ -21,13 +24,24 @@ import { GoalCard } from 'src/app/model/goal-card.interface';
   templateUrl: './game-field.component.html',
   styleUrls: ['./game-field.component.scss'],
 })
-export class GameFieldComponent implements OnInit {
+export class GameFieldComponent implements OnInit, AfterViewInit {
   currentPlayer: Player;
   selectedCard?: CodeCard;
   showCards = true;
 
-  constructor(public model: GameStateService, private modalCtrl: ModalController, private router: Router) { 
+  constructor(public model: GameStateService, private modalCtrl: ModalController, 
+    private router: Router, private shepherdService: ShepherdService) { 
     this.currentPlayer = model.getNextPlayer();
+  }
+
+  ngAfterViewInit(): void {
+    if (this.model.showTutorial) {
+      this.shepherdService.defaultStepOptions = defaultStepOptions;
+      this.shepherdService.modal = true;
+      this.shepherdService.confirmCancel = false;
+      this.shepherdService.addSteps(tutorialSteps);
+      this.shepherdService.start();
+    }
   }
 
   ngOnInit() {}
