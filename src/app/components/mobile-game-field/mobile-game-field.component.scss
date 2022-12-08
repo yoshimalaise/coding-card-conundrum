@@ -1,0 +1,102 @@
+.container {
+    width: 100%;
+    height: 100%;
+    background-image: url("../../../assets/wooden-bg.jpg");
+    overflow-y: auto;
+    color: white;
+}
+
+.goal-container {
+    width: 100%;
+    padding: 16px;
+}
+
+.select-environment-container,
+.select-card-container {
+    width: 100%;
+    padding: 16px;
+}
+
+.environment {
+    width: 100%;
+    background-color: #a9a9a955;
+    padding: 15px;
+    border-radius: 10px;
+    border: 2px solid black;
+    margin-bottom: 4px;
+}
+
+.environment-overview {
+    display: flex;
+    flex-direction: row;
+}
+
+.select-environment-button {
+    width: 100%;
+}
+
+.back-to-environment-select-btn {
+    height: 100%;
+    width: 20%;
+}
+
+.carousel-btn {
+    margin-top: 100px;
+}
+
+
+table {
+    width: 100%;
+    border: 2px solid black;
+}
+
+.selected-environment-table {
+    width: 80%;
+}
+
+.select-card-container {
+    width: 100%;
+    margin-top: 6px;
+    display: flex;
+    justify-content: space-between;
+    justify-items: center;
+    flex-wrap: wrap;
+}
+
+.select-card-button {
+    margin-top: 12px;
+    width: 100%;
+}
+
+tr {
+    text-align: center;
+}
+
+tr:nth-child(odd) {
+    background-color: #ffffff;
+    color: black;
+}
+
+tr:nth-child(even) {
+    background-color: #3b3a3a;
+    color: white;
+}
+
+/** customize the code highlight, hide the language and copy button **/
+::ng-deep .code-toolbar>.toolbar {
+    display: none !important;
+}
+
+::ng-deep .code-line .language-javascript {
+    border-top: none !important;
+    padding: 2px !important;
+    margin: 0px !important;
+}
+
+::ng-deep .language-javascript {
+    font-size: x-small;
+}
+
+::ng-deep ion-slide {
+    width: 100%;
+}

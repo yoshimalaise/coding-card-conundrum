@@ -19,11 +19,12 @@ import { TracetableModalComponent } from './components/modals/tracetable-modal/t
 import { GameOverModelComponent } from './components/modals/game-over-model/game-over-model.component';
 import { HandOverModalComponent } from './components/modals/hand-over-modal/hand-over-modal.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { MobileGameFieldComponent } from './components/mobile-game-field/mobile-game-field.component';
 
 @NgModule({
   declarations: [AppComponent, GameFieldComponent, EnvironmentCardComponent, CodeCardComponent, GoalCardComponent, 
     DeckOverviewComponent, AddPlayersModalComponent, GoalReachedModalComponent, PlayerRankingModalComponent,
-    TracetableModalComponent, GameOverModelComponent, HandOverModalComponent],
+    TracetableModalComponent, GameOverModelComponent, HandOverModalComponent, MobileGameFieldComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, FormsModule, ServiceWorkerModule.register('ngsw-worker.js', {
   enabled: !isDevMode(),
