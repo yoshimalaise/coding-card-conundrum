@@ -68,19 +68,24 @@ export class GameFieldComponent implements OnInit, AfterViewInit {
     await this.checkForGoals(t, this.currentPlayer);
     await this.checkForGameOver();
 
-    // start handover to next player
-    this.showCards = false;
-    this.currentPlayer = this.model.getNextPlayer();
-    const modal = await this.modalCtrl.create({
-      component: HandOverModalComponent,
-      componentProps: {
-        nextPlayer: this.currentPlayer
-      },
-      backdropDismiss:false
-    });
-    modal.present();
-    await modal.onWillDismiss();
-    this.showCards = true;
+    // start handover to next player if in a multiplayer game
+    if (this.model.players.length > 1) {
+      this.showCards = false;
+      this.currentPlayer = this.model.getNextPlayer();
+      const modal = await this.modalCtrl.create({
+        component: HandOverModalComponent,
+        componentProps: {
+          nextPlayer: this.currentPlayer
+        },
+        backdropDismiss:false
+      });
+      modal.present();
+      await modal.onWillDismiss();
+      this.showCards = true;
+    } else {
+      this.currentPlayer = this.model.getNextPlayer();
+    }
+    
   }
 
   /**
