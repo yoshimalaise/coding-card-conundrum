@@ -60,6 +60,9 @@ export class GameFieldComponent implements OnInit, AfterViewInit {
     this.currentPlayer.hand = this.currentPlayer.hand.filter(c => c !== this.selectedCard);
 
     // allow the user to update the trace table
+    if (this.model.players.length > 1) {
+      this.showCards = false;
+    }
     await this.showTraceTable(t);
 
     // draw new card and check for game progress
