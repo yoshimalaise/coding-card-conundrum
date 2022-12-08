@@ -1,3 +1,52 @@
-<p>
-  mobile-game-field works!
-</p>
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      CodeCards - {{ currentPlayer.name }}'s turn
+    </ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button class="trophy-button" (click)="showPlayerRanking()">
+        <ion-icon name="trophy-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <div class="container" *ngIf="currentPlayer">
+    <div class="goal-container">
+      <h1> Goal - {{currentPlayer.goal?.score}} pts </h1>
+      <snippet-highlight class="snippet trail-environment" theme="dark" language="javascript"
+        [content]="currentPlayer.goal?.assertionSnippet"></snippet-highlight>
+    </div>
+
+    <div *ngIf="!selectedEnvironment" class="select-environment-container">
+      <div class="environment" *ngFor="let t of model.cardTrails; let i = index">
+        <h3>Environment {{ i + 1 }}</h3>
+        <table class="environment-table" *ngIf="t.environment">
+          <tr>
+            <th>foo</th>
+            <th>bar</th>
+            <th>x</th>
+            <th>y</th>
+            <th>z</th>
+          </tr>
+          <tr>
+            <td>{{ t.environment.foo }}</td>
+            <td>{{ t.environment.bar }}</td>
+            <td>{{ t.environment.x }}</td>
+            <td>{{ t.environment.y }}</td>
+            <td>{{ t.environment.z }}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <div *ngIf="selectedEnvironment" class="select-card-container">
+      test
+    </div>
+  </div>
+</ion-content>
