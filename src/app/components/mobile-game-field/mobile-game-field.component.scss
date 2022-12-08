@@ -11,7 +11,8 @@
     padding: 16px;
 }
 
-.select-environment-container, .select-card-container {
+.select-environment-container,
+.select-card-container {
     width: 100%;
     padding: 16px;
 }
@@ -25,14 +26,28 @@
     margin-bottom: 4px;
 }
 
+.environment-overview {
+    display: flex;
+    flex-direction: row;
+}
+
 .select-environment-button {
     width: 100%;
+}
+
+.back-to-environment-select-btn {
+    height: 100%;
+    width: 20%;
 }
 
 
 table {
     width: 100%;
     border: 2px solid black;
+}
+
+.selected-environment-table {
+    width: 80%;
 }
 
 tr {

@@ -47,7 +47,25 @@
     </div>
 
     <div *ngIf="selectedEnvironment" class="select-card-container">
-      test
+      <div class="environment-overview">
+        <ion-button (click)="deselectEnvironment()" class="back-to-environment-select-btn"><ion-icon name="caret-back-outline"></ion-icon></ion-button>
+        <table class="selected-environment-table">
+          <tr>
+            <th>foo</th>
+            <th>bar</th>
+            <th>x</th>
+            <th>y</th>
+            <th>z</th>
+          </tr>
+          <tr>
+            <td>{{ selectedEnvironment.environment?.foo }}</td>
+            <td>{{ selectedEnvironment.environment?.bar }}</td>
+            <td>{{ selectedEnvironment.environment?.x }}</td>
+            <td>{{ selectedEnvironment.environment?.y }}</td>
+            <td>{{ selectedEnvironment.environment?.z }}</td>
+          </tr>
+        </table>
+      </div>
     </div>
   </div>
 </ion-content>

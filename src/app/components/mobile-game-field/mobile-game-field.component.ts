@@ -33,6 +33,9 @@ export class MobileGameFieldComponent implements OnInit {
   selectEnvironment(t: CardTrail) {
     this.selectedEnvironment = t;
   }
+  deselectEnvironment() {
+    this.selectedEnvironment = undefined;
+  }
 
   selectCard(c: CodeCard) {
    
