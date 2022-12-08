@@ -24,7 +24,7 @@
     </div>
 
     <div *ngIf="!selectedEnvironment" class="select-environment-container">
-      <div class="environment" *ngFor="let t of model.cardTrails; let i = index">
+      <div class="environment" *ngFor="let t of model.trails; let i = index">
         <h3>Environment {{ i + 1 }}</h3>
         <table class="environment-table" *ngIf="t.environment">
           <tr>
@@ -42,6 +42,7 @@
             <td>{{ t.environment.z }}</td>
           </tr>
         </table>
+        <ion-button (click)="selectEnvironment(t)" class="select-environment-button"> Select Environment</ion-button>
       </div>
     </div>
 
