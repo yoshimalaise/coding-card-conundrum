@@ -40,6 +40,10 @@
     width: 20%;
 }
 
+.carousel-btn {
+    margin-top: 100px;
+}
+
 
 table {
     width: 100%;
@@ -48,6 +52,20 @@ table {
 
 .selected-environment-table {
     width: 80%;
+}
+
+.select-card-container {
+    width: 100%;
+    margin-top: 6px;
+    display: flex;
+    justify-content: space-between;
+    justify-items: center;
+    flex-wrap: wrap;
+}
+
+.select-card-button {
+    margin-top: 12px;
+    width: 100%;
 }
 
 tr {

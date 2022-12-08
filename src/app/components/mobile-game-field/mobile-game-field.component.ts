@@ -10,6 +10,7 @@ import { GameStateService } from 'src/app/services/game-state.service';
 import { initializeTracetable } from 'src/app/utils/initiliaze-tracetable';
 import { GameOverModelComponent } from '../modals/game-over-model/game-over-model.component';
 import { GoalReachedModalComponent } from '../modals/goal-reached-modal/goal-reached-modal.component';
+import { HandOverModalComponent } from '../modals/hand-over-modal/hand-over-modal.component';
 import { PlayerRankingModalComponent } from '../modals/player-ranking-modal/player-ranking-modal.component';
 import { TracetableModalComponent } from '../modals/tracetable-modal/tracetable-modal.component';
 
@@ -20,25 +21,73 @@ import { TracetableModalComponent } from '../modals/tracetable-modal/tracetable-
 })
 export class MobileGameFieldComponent implements OnInit {
   currentPlayer: Player;
+  currentCardIndex = 0;
   selectedEnvironment?: CardTrail = undefined;
   showCards = true;
 
-  constructor(public model: GameStateService, private modalCtrl: ModalController, 
-    private router: Router, private shepherdService: ShepherdService) { 
+  constructor(public model: GameStateService, private modalCtrl: ModalController,
+    private router: Router, private shepherdService: ShepherdService) {
     this.currentPlayer = model.getNextPlayer();
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   selectEnvironment(t: CardTrail) {
     this.selectedEnvironment = t;
   }
-  deselectEnvironment() {
+  deselectEnvironment() {
     this.selectedEnvironment = undefined;
   }
 
-  selectCard(c: CodeCard) {
-   
+  async selectCard(c: CodeCard) {
+    if (!this.selectedEnvironment) {
+      return;
+    }
+
+    // remove the card from the hand and place on the trail
+    this.selectedEnvironment.codeCards.push(c);
+    this.currentPlayer.hand = this.currentPlayer.hand.filter(cc => cc !== c);
+
+    // allow the user to update the trace table
+    if (this.model.players.length > 1) {
+      this.showCards = false;
+    }
+    await this.showTraceTable(this.selectedEnvironment);
+
+    // draw new card and check for game progress
+    this.currentPlayer.hand.push(this.model.drawCodeCard());
+    await this.checkForGoals(this.selectedEnvironment, this.currentPlayer);
+    await this.checkForGameOver();
+
+    // start handover to next player if in a multiplayer game
+    if (this.model.players.length > 1) {
+      this.showCards = false;
+      this.currentPlayer = this.model.getNextPlayer();
+      const modal = await this.modalCtrl.create({
+        component: HandOverModalComponent,
+        componentProps: {
+          nextPlayer: this.currentPlayer
+        },
+        backdropDismiss: false
+      });
+      modal.present();
+      await modal.onWillDismiss();
+      this.showCards = true;
+    } else {
+      this.currentPlayer = this.model.getNextPlayer();
+    }
+    this.selectedEnvironment = undefined;
+  }
+
+  previousCard() {
+    if (this.currentCardIndex === 0) {
+      this.currentCardIndex += this.currentPlayer.hand.length;
+    }
+    this.currentCardIndex--;
+  }
+
+  nextCard() {
+    this.currentCardIndex += 1;
   }
 
   /**
@@ -46,8 +95,8 @@ export class MobileGameFieldComponent implements OnInit {
    * only check for goal once a card has been played on a trail,
    * only check for that trail of cards and for the player who just played
    */
-   async checkForGoals(t: CardTrail, p: Player) {
-    
+  async checkForGoals(t: CardTrail, p: Player) {
+
     const trailCode = assertDeclaration + t.environmentCard.declarationsSnippet + '\n' + t.codeCards.map(c => c.snippet).join("\n");
     const code = trailCode + '\n' + p.goal?.assertionSnippet;
     try {
@@ -62,11 +111,11 @@ export class MobileGameFieldComponent implements OnInit {
         //show the goal reached modal
         const modal = await this.modalCtrl.create({
           component: GoalReachedModalComponent,
-          componentProps: { 
+          componentProps: {
             card: p.goal,
             player: p
           },
-          backdropDismiss:false
+          backdropDismiss: false
         });
         modal.present();
         await modal.onWillDismiss();
@@ -89,7 +138,7 @@ export class MobileGameFieldComponent implements OnInit {
           componentProps: {
             winningPlayer: p
           },
-          backdropDismiss:false
+          backdropDismiss: false
         });
         modal.present();
         await modal.onWillDismiss();
@@ -97,7 +146,7 @@ export class MobileGameFieldComponent implements OnInit {
       }
     }));
   }
-  
+
   async showTraceTable(t: CardTrail) {
     // TracetableModalComponent
     const modal = await this.modalCtrl.create({
@@ -105,7 +154,7 @@ export class MobileGameFieldComponent implements OnInit {
       componentProps: {
         trail: t
       },
-      backdropDismiss:false
+      backdropDismiss: false
     });
     modal.present();
     await modal.onWillDismiss();
@@ -118,7 +167,7 @@ export class MobileGameFieldComponent implements OnInit {
         sortedPlayers: this.model.players.sort((a, b) => b.score - a.score),
         targetScore: this.model.targetScore
       },
-      backdropDismiss:false
+      backdropDismiss: false
     });
     modal.present();
     await modal.onWillDismiss();
