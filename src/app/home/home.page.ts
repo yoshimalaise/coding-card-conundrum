@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { GameStateService } from '../services/game-state.service';
 import { ModalController } from '@ionic/angular';
 import { AddPlayersModalComponent } from '../components/modals/add-players-modal/add-players-modal.component';
+import { DeviceDetectorService } from 'ngx-device-detector';
+
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -10,7 +12,7 @@ import { AddPlayersModalComponent } from '../components/modals/add-players-modal
 })
 export class HomePage {
 
-  constructor(private router: Router, private model: GameStateService, private modalCtrl: ModalController) {}
+  constructor(private router: Router, private model: GameStateService, private modalCtrl: ModalController, private deviceDetector: DeviceDetectorService) {}
 
   async startGame() {
     // this.model.players = [{name: 'Player one', hand: [], score: 0}];
@@ -22,7 +24,7 @@ export class HomePage {
     modal.present();
     await modal.onWillDismiss();
     this.model.setup();
-    this.router.navigate(['game-field']);
+    this.router.navigate([this.deviceDetector.isMobile() ? 'mobile-game-field' : 'game-field']);
   }
 
   showDeckOverview() {
@@ -35,7 +37,7 @@ export class HomePage {
     this.model.players = [{name: 'Demo Player', hand: [], score: 0}];
     this.model.showTutorial = true;
     this.model.setup();
-    this.router.navigate(['game-field']);
+    this.router.navigate([this.deviceDetector.isMobile() ? 'mobile-game-field' : 'game-field']);
   }
 
 }

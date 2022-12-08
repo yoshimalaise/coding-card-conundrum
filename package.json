@@ -30,6 +30,7 @@
     "angular-shepherd": "^14.0.0",
     "ionicons": "^6.0.3",
     "ng2-dragula": "^2.1.1",
+    "ngx-device-detector": "^4.0.1",
     "rxjs": "~7.5.0",
     "snippet-highlight": "^1.0.2",
     "tslib": "^2.3.0",
