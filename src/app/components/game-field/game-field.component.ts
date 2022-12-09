@@ -29,8 +29,8 @@ export class GameFieldComponent implements OnInit, AfterViewInit {
   selectedCard?: CodeCard;
   showCards = true;
 
-  constructor(public model: GameStateService, private modalCtrl: ModalController, 
-    private router: Router, private shepherdService: ShepherdService) { 
+  constructor(public model: GameStateService, private modalCtrl: ModalController,
+    private router: Router, private shepherdService: ShepherdService) {
     this.currentPlayer = model.getNextPlayer();
   }
 
@@ -44,7 +44,7 @@ export class GameFieldComponent implements OnInit, AfterViewInit {
     }
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   selectCard(c: CodeCard) {
     this.selectedCard = c;
@@ -80,7 +80,7 @@ export class GameFieldComponent implements OnInit, AfterViewInit {
         componentProps: {
           nextPlayer: this.currentPlayer
         },
-        backdropDismiss:false
+        backdropDismiss: false
       });
       modal.present();
       await modal.onWillDismiss();
@@ -88,7 +88,7 @@ export class GameFieldComponent implements OnInit, AfterViewInit {
     } else {
       this.currentPlayer = this.model.getNextPlayer();
     }
-    
+
   }
 
   /**
@@ -97,29 +97,31 @@ export class GameFieldComponent implements OnInit, AfterViewInit {
    * only check for that trail of cards and for the player who just played
    */
   async checkForGoals(t: CardTrail, p: Player) {
-    
+
     const trailCode = assertDeclaration + t.environmentCard.declarationsSnippet + '\n' + t.codeCards.map(c => c.snippet).join("\n");
     const code = trailCode + '\n' + p.goal?.assertionSnippet;
     try {
       let result = eval(code);
       console.log('checking for: ', code, result);
       if (result) {
+        //show the goal reached modal
+        const modal = await this.modalCtrl.create({
+          component: GoalReachedModalComponent,
+          componentProps: {
+            card: p.goal,
+            player: p
+          },
+          backdropDismiss: false
+        });
+        modal.present();
+        await modal.onWillDismiss();
+
         // draw a new goal card
         this.model.discardedGoalCards.push(p.goal as GoalCard);
         p.goal = this.model.drawGoalCard();
         // increate the player score
         p.score += p.goal?.score ?? 0;
-        //show the goal reached modal
-        const modal = await this.modalCtrl.create({
-          component: GoalReachedModalComponent,
-          componentProps: { 
-            card: p.goal,
-            player: p
-          },
-          backdropDismiss:false
-        });
-        modal.present();
-        await modal.onWillDismiss();
+
         // start a new trail with new environment card
         t.codeCards.forEach(c => this.model.discardedCodeCards.push(c));
         this.model.discardedEnvironmentCards.push(t.environmentCard);
@@ -139,7 +141,7 @@ export class GameFieldComponent implements OnInit, AfterViewInit {
           componentProps: {
             winningPlayer: p
           },
-          backdropDismiss:false
+          backdropDismiss: false
         });
         modal.present();
         await modal.onWillDismiss();
@@ -147,7 +149,7 @@ export class GameFieldComponent implements OnInit, AfterViewInit {
       }
     }));
   }
-  
+
   async showTraceTable(t: CardTrail) {
     // TracetableModalComponent
     const modal = await this.modalCtrl.create({
@@ -155,7 +157,7 @@ export class GameFieldComponent implements OnInit, AfterViewInit {
       componentProps: {
         trail: t
       },
-      backdropDismiss:false
+      backdropDismiss: false
     });
     modal.present();
     await modal.onWillDismiss();
@@ -168,7 +170,7 @@ export class GameFieldComponent implements OnInit, AfterViewInit {
         sortedPlayers: this.model.players.sort((a, b) => b.score - a.score),
         targetScore: this.model.targetScore
       },
-      backdropDismiss:false
+      backdropDismiss: false
     });
     modal.present();
     await modal.onWillDismiss();

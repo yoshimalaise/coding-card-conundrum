@@ -103,11 +103,6 @@ export class MobileGameFieldComponent implements OnInit {
       let result = eval(code);
       console.log('checking for: ', code, result);
       if (result) {
-        // draw a new goal card
-        this.model.discardedGoalCards.push(p.goal as GoalCard);
-        p.goal = this.model.drawGoalCard();
-        // increate the player score
-        p.score += p.goal?.score ?? 0;
         //show the goal reached modal
         const modal = await this.modalCtrl.create({
           component: GoalReachedModalComponent,
@@ -119,6 +114,13 @@ export class MobileGameFieldComponent implements OnInit {
         });
         modal.present();
         await modal.onWillDismiss();
+        
+        // draw a new goal card
+        this.model.discardedGoalCards.push(p.goal as GoalCard);
+        p.goal = this.model.drawGoalCard();
+        // increate the player score
+        p.score += p.goal?.score ?? 0;
+        
         // start a new trail with new environment card
         t.codeCards.forEach(c => this.model.discardedCodeCards.push(c));
         this.model.discardedEnvironmentCards.push(t.environmentCard);
